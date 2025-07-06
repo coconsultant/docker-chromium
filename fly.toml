@@ -1,0 +1,53 @@
+# fly.toml file for docker-chromium
+# See https://fly.io/docs/reference/configuration/ for information about this file.
+
+# Change the app name to something unique before deploying
+app = "docker-chromium"
+primary_region = "iad" # example region
+
+[build]
+
+# Set environment variables in the [env] section or as secrets.
+# See the README.md for available variables.
+# For example, to set a VNC password, run:
+# fly secrets set VNC_PASSWORD="your-secret-password"
+[env]
+
+[[mounts]]
+  source = "chromium_config"
+  destination = "/config"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 5800
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.checks]]
+    type = "http"
+    port = 5800
+    path = "/"
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "5s"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 5900
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 5900
