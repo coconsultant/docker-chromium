@@ -8,6 +8,6 @@ services:
     volumes:
       - "./config:/config:rw"
     environment:
-      - VNC_PASSWORD=badpassword
+      - VNC_PASSWORD=${VNC_PASSWORD}
     shm_size: '2gb'
     restart: always
