@@ -51,3 +51,9 @@ primary_region = "iad" # example region
 
   [[services.ports]]
     port = 5900
+
+
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "2gb"
