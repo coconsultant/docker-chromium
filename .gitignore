@@ -155,3 +155,5 @@ Thumbs.db
 
 # tings
 config/
+.aider*
+.env
